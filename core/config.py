@@ -53,7 +53,7 @@ class Settings(BaseSettings):
     @computed_field  # type: ignore[misc]
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
-        return MultiHostUrl.build(
+        url = MultiHostUrl.build(
             scheme="postgresql+psycopg2",
             username=self.POSTGRESQL_USERNAME,
             password=self.POSTGRESQL_PASSWORD,
@@ -61,5 +61,6 @@ class Settings(BaseSettings):
             port=self.POSTGRESQL_PORT,
             path=self.POSTGRESQL_DATABASE,
         )
+        return f"{str(url)}?sslmode=require"
     NVIDIA_API_KEY: str                      
     NVIDIA_BASE_URL: str 
